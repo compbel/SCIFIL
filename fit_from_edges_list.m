@@ -1,7 +1,7 @@
-who
-tree = convertEdgesListToTree('input.test');
+addpath('functions');
+tree = convertEdgesListToTree(input);
 converter = TreeConverter;
-bintree = converter.convertToBinTree(tree);
+bintree = converter.convertToBinTree(tree
 fmax = 1.5;
 fmin = 1;
 theta = 0.01;
