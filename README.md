@@ -51,7 +51,7 @@ Example:
 
 This example corresponds to following tree:
 
-![Example](https://pp.userapi.com/c849320/v849320514/b3c1e/tUks97Qvi3o.jpgG)
+![Example](img/example.PNG)
 
 ### Output format
 
