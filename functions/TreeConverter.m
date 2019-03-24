@@ -3,8 +3,88 @@ classdef TreeConverter < handle
         btree %field to fill recursively
         index = 1
         % bintree: [leftChild righChild parent label frequency timet fitness]
+        % stree: [nextChild haplotype parent label frequency timet fitness]
     end
     methods
+        
+        function stree = convertToStree(self, tree)
+            stree = cell(nIntern+nUnCells+1,7);
+            for i = 1:(nIntern+nUnCells+1)
+                p = find(AM(:,i) > 0);
+                if ~isempty(p)
+                    stree{i,3} = p;
+                end
+                ch = find(AM(i,1:(nIntern+1)) > 0);
+                stree{i,1} = ch;
+                if i <= nIntern + 1
+                    h = find(AM(i,(nIntern+2):end) > 0);
+                    if ~isempty(h)
+                        stree{i,2} = h;
+                    end
+                    stree{i,4} = i-1;
+                end
+            end
+        end    
+        % converts stree to bintree
+        function bintree = convertToBinTreeS(self, stree, obsFreqLeafs)
+            newTree = self.subtreeFrequency(stree, obsFreqLeafs, 1 );
+            n = length(obsFreqLeafs);
+            self.index = 0;
+            self.btree(n, 7) = 0;
+            self.fill_children_s(newTree, 1, 0);
+            bintree = self.btree;
+            bintree = bintree(1:self.index,:);
+        end
+        
+        function newTree = subtreeFrequency(self, stree, obsFreqLeafs, node)
+            newTree = stree;
+            freq = obsFreqLeafs(stree{node, 2});
+            for i=stree{node,1}
+                newTree = self.subtreeFrequency(newTree, obsFreqLeafs, i);
+                if isempty(newTree{node, 5})
+                    newTree{node, 5} = newTree{i, 5};
+                else
+                    newTree{node, 5} = newTree{node, 5} + newTree{i, 5};
+                end
+            end
+            if isempty(newTree{node, 5})
+                newTree{node, 5} = freq;
+            else
+                newTree{node, 5} = newTree{node, 5} + freq;
+            end
+        end
+        
+        function fill_children_s(self, stree, node, current_parent)
+            if (~isempty(stree{node,1}))
+                childrenFreq(1, length(stree{node,1})) = 0;
+                for i = 1:length(stree{node,1})
+                    childrenFreq(i) = stree{stree{node,1}(i), 5};
+                end
+                [B, I] = sort(childrenFreq,'descend');
+                self.index = self.index + 1;
+                % write first children to current index
+                parent = self.index;
+                self.btree(self.index, 1) = self.index + 1;
+                self.btree(self.index, 3) = current_parent;
+                self.btree(self.index, 4) = stree{ stree{node,1}(I(1)), 2};
+                self.btree(self.index, 5) = B(1);
+                self.fill_children_s(stree,  stree{node,1}(I(1)), parent)
+                
+                self.btree(self.index, 2) = self.index + 1;
+                for i=2:length(I)
+                    self.fill_children_s(stree,  stree{node,1}(I(i)), parent)
+                end
+            else
+                self.index = self.index + 1;
+                self.btree(self.index, 1) = self.index + 1;
+                self.btree(self.index, 3) = current_parent;
+                self.btree(self.index, 4) = stree{node, 2};
+                
+                self.index = self.index + 1;
+                
+            end
+            
+        end
         function bintree = convertToBinTree(self, tree)
             %total number of vertices
             if tree.children(1).value == 'X'

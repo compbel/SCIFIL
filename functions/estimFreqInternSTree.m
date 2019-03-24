@@ -1,4 +1,4 @@
-function [freqDistrs,freqDistrLast,probMutEvents] = estimFreqInternSTree(stree,fit,eps)
+function [freqDistrs,freqDistrLast,probMutEvents] = estimFreqInternSTree(stree,fit,eps,usephi)
 % stree: [nextChild haplotype parent label frequency timet fitness] row 1
 % is mutation 0
 intern = find(~cellfun(@isempty,stree(:,2)));
@@ -23,12 +23,12 @@ freqDistrs(u,stree{u+1,2}) = eps;
 freqDistrs(u,stree{p+1,2}) = 1-eps;
 
 for i = 2:nIntern
-    u = internSorted(i)-1;
-    p = internSorted(i-1)-1;
-    h1 = stree{u+1,2};
-    h2 = stree{stree{u+1,3},2};
-    t = abs(stree{u+1,6}-stree{p+1,6});
-    [freqDistrs(u,:),probMutEvents(u)] = estimFreqInternVertSTree(u,h1,h2,t,fit,freqDistrs(p,:),eps);
+    u = internSorted(i);
+    p = internSorted(i-1);
+    h1 = stree{u,2};
+    h2 = stree{stree{u,3},2};
+    t = abs(stree{u,6}-stree{p,6});
+    [freqDistrs(u-1,:),probMutEvents(u-1)] = estimFreqInternVertSTree(u,h1,h2,t,fit,freqDistrs(p-1,:),eps,usephi);
 end
 
 t = stree{leafs(1),6} - timesSorted(end);

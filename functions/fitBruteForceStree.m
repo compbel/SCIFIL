@@ -1,4 +1,4 @@
-function [likelihood, fit, order,stats] = fitBruteForceStree(stree,theta,fmax,obsFreqLeafs,eps,Tmax)
+function [likelihood, fit, order,stats] = fitBruteForceStree(stree,theta,fmax,fmin,obsFreqLeafs,eps,Tmax)
 
 global gl_oter;
 global l_min;
@@ -23,7 +23,7 @@ nodes_count = size(stree, 1) - leaf_count - 1;
 stree{1,7} = 1;
 stree{1,6} = 0;
 tic
-[likelihood, fit] = recEdgeLengthEstimationStree(1, stree, [], stree{1,1}, [], theta, obsFreqLeafs,eps,Tmax, nodes_count, fmax, [], 1);
+[likelihood, fit] = recEdgeLengthEstimationStree(1, stree, [], stree{1,1}, [], theta, obsFreqLeafs,eps,Tmax, nodes_count, fmax, fmin, [], 0);
 toc
 order = bestOrder;
 stats = [gl_oter filterFit filterLB];
