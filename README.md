@@ -8,8 +8,9 @@ single cell sequencing data.
 It takes single cell data, mutation tree and estimates finesses of all mutations.
 
 ## Parameters
-- ``matrix_file`` - path to file with cells mutation profile
-- ``gv_file``  - path to file with mutation tree
+- ``n`` - number of haplotypes
+- ``m`` - number of mutation (not counting repeated mutation)
+- ``gv_file``  - path to file with mutation tree in GraphcViz format
 - ``names_file`` (_optional_) - name of file with mutation names
 - ``output`` (_optional_) - path for output file. Default "out.txt"
 - ``method`` (_optional_) - method to use for fitness calculation(default "heuristic"):
@@ -22,19 +23,16 @@ It takes single cell data, mutation tree and estimates finesses of all mutations
 
 In console type and change to actual parameters:
 
-``matlab -nodisplay -nodesktop -r "matrix_file='<input_mutations_csv>';gv_file='<input_gv_tree>';output='<output_file>';method='<method_name>';nRep=<number>;theta=<number>;SCIFIL"``
+``matlab -nodisplay -nodesktop -r "n=<number>;m=<number>;gv_file='<input_gv_tree>';output='<output_file>';method='<method_name>';nRep=<number>;theta=<number>;SCIFIL"``
 
 Example:
 
-``matlab -nodisplay -nodesktop -r "matrix_file='data/scite/dataHou18.csv';gv_file='data/scite/dataHou18_map0.gv';names_file='data/scite/dataHou18names.txt';nRep=3;SCIFIL"``
+``matlab -nodisplay -nodesktop -r "gv_file='data/dataHou18_map0.gv';names_file='data/dataHou18names.txt';nRep=3;n=58;m=18;SCIFIL"``
 
 Execution result:
 ![Example](img/example.PNG)
-### Input files
-There are two input files:
-- csv with mutations where each row represents mutation, each column represents cell
-- gv file with mutation tree
-Examples can be found in data/scite/ folder
+
+There will be two figures. First represent mutation tree, second fitness landscape.
 
 
 ### Output file

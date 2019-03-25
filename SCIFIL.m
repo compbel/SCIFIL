@@ -8,20 +8,18 @@ if (~exist('output', 'var'))
     output = 'out.txt';
 end
 
-
-
-M_noise = dlmread(matrix_file); % matrix_file = 'data/scite/dataHou18.csv'
-
-M_noise = M_noise';
-
-n = size(M_noise,1);
-m = size(M_noise,2);
+% M_noise = dlmread(matrix_file); % matrix_file = 'data/dataHou18.csv'
+% 
+% M_noise = M_noise';
+% 
+% n = size(M_noise,1);
+% m = size(M_noise,2);
 
 % number of repeated mutation
 
 
 if (exist('names_file', 'var'))
-    fid = fopen( names_file); % 'data/scite/dataHou18names.txt'
+    fid = fopen( names_file); % 'data/dataHou18names.txt'
     names = textscan(fid,'%s');
     names = names{1,1};
     names = [{'empty'}; names];
@@ -46,7 +44,7 @@ m = m+noRep;
 
 
 
-AMscite = scite2Tree(gv_file,n,m); % gv_file = 'data/scite/dataHou18_map0.gv'
+AMscite = scite2Tree(gv_file,n,m); % gv_file = 'data/dataHou18_map0.gv'
 stree = AMInfScite2STree(AMscite(1:(m+1),1:(m+1)));
 
 cellCounts = zeros(m+1,1);
@@ -119,7 +117,7 @@ for i = 1:n
     labelsScite{m+1+i} = ['c' int2str(i)];
 end
 Gscite = digraph(AMscite(1:(m+1),1:(m+1)));
-figure
+figure('Name','Mutation tree')
 plot(Gscite,'NodeLabel',labelsScite(1:(m+1)));
 
 AM_stree = AMscite(1:(m+1),1:(m+1));
@@ -159,7 +157,9 @@ lim2y = max(DataMDS(:,2)) + coeff1;
 vq = griddata(DataMDS(:,1),DataMDS(:,2),fitNodes',xq,yq,'v4');
 color = [0 0 0];
 colors = ones(nHapl,3);
-figure
+
+figure('Name','Fitness landscape')
+
 contourf(xq,yq,vq,20)
 axis off;
 colormap jet
