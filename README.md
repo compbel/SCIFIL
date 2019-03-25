@@ -10,21 +10,26 @@ It takes single cell data, mutation tree and estimates finesses of all mutations
 ## Parameters
 - ``matrix_file`` - path to file with cells mutation profile
 - ``gv_file``  - path to file with mutation tree
-- ``output`` - path for output file
-- ``method`` - method to use for fitness calculation:
+- ``names_file`` (_optional_) - name of file with mutation names
+- ``output`` (_optional_) - path for output file. Default "out.txt"
+- ``method`` (_optional_) - method to use for fitness calculation(default "heuristic"):
     - ``heuristic`` to use heuristic
     - ``brute_force`` to use brute force in finding order of mutation event in time for fitness estimation
+- ``nRep`` (_optional_) - number of repeated mutation(if any) starting from 1
+- ``theta`` (_optional_) - value of theta (mean cancer cells mutation rate). Default is 0.01.
 
 ## Hot to run
 
-In console type:
+In console type and change to actual parameters:
 
-``matlab -nodisplay -nodesktop -r "matrix_file='<input_mutations_csv>';gv_file='<input_gv_tree>';output='test.out';method='heuristic';fit_from_edges_list"``
+``matlab -nodisplay -nodesktop -r "matrix_file='<input_mutations_csv>';gv_file='<input_gv_tree>';output='<output_file>';method='<method_name>';nRep=<number>;theta=<number>;SCIFIL"``
 
 Example:
 
-``matlab -nodisplay -nodesktop -r "matrix_file='data/scite/test1_30.csv';gv_file='data/scite/test1_30.gv';output='test.out';method='heuristic';fit_from_edges_list"``
+``matlab -nodisplay -nodesktop -r "matrix_file='data/scite/dataHou18.csv';gv_file='data/scite/dataHou18_map0.gv';names_file='data/scite/dataHou18names.txt';nRep=3;SCIFIL"``
 
+Execution result:
+![Example](img/example.PNG)
 ### Input files
 There are two input files:
 - csv with mutations where each row represents mutation, each column represents cell
