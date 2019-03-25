@@ -37,7 +37,7 @@ There will be two figures. First represent mutation tree, second fitness landsca
 
 ### Output file
 
-Output contains only one line - calculated fitness of mutations in the same order as in input csv file:
+Output contains only one line - calculated fitness of mutations in the same order as in names file or as their numbers in gv file (if names file is not specified). Repeated mutation's fitness will be the last one
 
 ```
 1.0051 1.0119 1.0206 1.0289 1.0385 1.0490 1.0605 1.0745 1.0904 1.1068 1.1354 1.1107 1.1475 1.1905 1.2466 1.3785 
