@@ -23,6 +23,7 @@ It takes single cell data, mutation tree and estimates finesses of all mutations
 To obtain the trees from data folder we used infSCITE with following parameters:
 
 ``./infSCITE -i dataHou18.csv -n 18 -m 58 -r 1 -l 500000 -fd 3.45e-3 -ad 1.46e-1 -s -e .2 -p 10000 -d -rec 3 -o output/dataHou18/dataHou18 -a``
+
 ``./infSCITE -i dataHou18.csv -n 18 -m 58 -r 1 -l 500000 -fd 3.45e-3 -ad 1.46e-1 -s -e .2 -p 10000 -d -o output/dataHou18/dataHou18 -a``
 
 With third (SESN2) repeated mutation and without it respectively.
