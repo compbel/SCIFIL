@@ -79,7 +79,6 @@ while top  > 0
     currLikelihood = stackCurrLikelihood(top);
     currFit = stackCurrFit{top};
     freqDistr = stackFreqDistr{top};
-%     fm = stackMaxFit(top);
     top = top - 1;
     subset(pos) = elem;
  
@@ -89,43 +88,23 @@ while top  > 0
         gap = subset(pos)-1;
     end
 
-%     orderAppend = [chain2((currElem2+1):(currElem2+gap)) chain1(pos)];
     newOrder = [currOrder chain2((currElem2+1):(currElem2+gap)) chain1(pos)];
     currElem2new = currElem2+gap;
     if subset(end) ~= 0
         gap1 = n - subset(end);
-%         orderAppend = [orderAppend chain2((currElem2new+1):(currElem2new+gap1))];
         newOrder = [newOrder chain2((currElem2new+1):(currElem2new+gap1))];
     end
-%     newOrder = [currOrder orderAppend];
     newLikelihood = currLikelihood;
-    % time = toc;
-    % times(2) = times(2) + time;
-    % 
-    % tic
     newFit = currFit;
     freqDistrPrev = freqDistr;
     filterPassed = true;
     
-        
-%     if (subset(3) == 15) && (subset(4) == 17)
-%        ['stop']
-%     end
-
-%     if (subset(1) == 2)
-%        ['stop']
-%     end
-    
-    
-%     for i = (length(currOrder)+1):(length(currOrder) + length(orderAppend))
+  
     for i = (length(currOrder)+1):(length(newOrder))
         v = newOrder(i);
         tv = (i-1)/theta;
         parent = stree{v,3} ;
         fp = newFit(parent);
-%         Op = obsFreqLeafs(stree{parent,2});
-%         Ov = obsFreqLeafs(stree{v,2});
-%         fv = fp - (log(eps/(1-eps))+log(Op)-log(Ov))/(t_last-tv);
         fv = fp - freqCoeff(v)/(t_last-tv);
         newFit(stree{v,2}) = fv;
         stree{v,6} = tv;
@@ -136,8 +115,6 @@ while top  > 0
             timeInterv = stree{v,6}-stree{prev,6};
         end
         [freqDistrNew,probMutEvent,phi] = estimFreqInternVertSTree(0,stree{v,2},stree{parent,2},timeInterv, newFit, freqDistrPrev, eps,false);
-%         [freqDistrNew,probMutEvent] = estimFreqInternVertSTree_norec(0,stree{v,2},stree{parent,2},timeInterv, newFit, freqDistrPrev, eps);
-
         freqDistrPrev = freqDistrNew;
         newLikelihood = newLikelihood + log(probMutEvent);
         if newLikelihood < bestLikelihood
@@ -146,39 +123,6 @@ while top  > 0
             avCutPoint = avCutPoint + i;
             break;
         end
-%         if fv <= phi
-%             filterPhi = filterPhi + 1;
-%             filterPassed = false;
-%             break;
-%         end
-%         if (fv > fmax || fv < fmin)
-%             filterFit = filterFit + 1;
-%             filterPassed = false;
-%             break;
-%         end
-%         ub = upperBound1(stree, newOrder(1:i), freqDistrNew,newFit,n,eps,theta,fmax,fmin,newLikelihood);
-%         if ub < bestLikelihood
-%             filterFutureDeg = filterFutureDeg + 1;
-%             filterPassed = false;
-%             break;
-%         end
-%         if i == length(newOrder)
-%             lastCh1 = pos;
-%         else
-%             lastCh1 = pos - 1;
-%         end
-%         if chainsCharVect(v) == 1
-%             lastCh1 = pos;
-%         else
-%             lastCh1 = pos - 1;
-%         end
-%         [ubCut,ub] = upperBound3(stree,newFit,newLikelihood,chain1,chain2,lastCh1,i-lastCh1,i,freqCoeff,theta,freqDistrNew,bestLikelihood,eps);
-%         if ubCut
-%             filterLB = filterLB + 1;
-%             filterPassed = false;
-%             avCutPoint = avCutPoint + i;
-%             break;
-%         end
     end
     
     if pos < r
@@ -202,7 +146,6 @@ while top  > 0
                 stackCurrLikelihood(top) = newLikelihood;
                 stackCurrElem2(top) = currElem2new;
                 stackFreqDistr{top} = freqDistrPrev;
-%                 stackMaxFit(top) = fm_new;
             end
         end
     else

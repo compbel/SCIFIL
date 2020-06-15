@@ -38,6 +38,7 @@ for i = bif
     while length(neigh_i) >= 2
         desc1 = bfsearch(G,neigh_i(1));
         desc2 = bfsearch(G,neigh_i(2));
+        % union first two chains
         desc = [i; desc1; desc2];
         nHapl_sub = length(desc);
         stree_sub = cell(2*length(desc),8);
@@ -45,6 +46,7 @@ for i = bif
         for j = 1:length(desc)
             indDesc(desc(j)) = j;
         end
+        % find their frequencies
         hapl_desc = cell2mat(stree(desc,2));
         freq_sub = freq(hapl_desc);
         freq_unnorm = freq_sub;
@@ -57,10 +59,10 @@ for i = bif
             j = desc(h);
             stree_sub{h,2} = h;
             stree_sub{h,3} = indDesc(stree{j,3});
-            if h == 1
+            if h == 1 % chain root children are start of first and second chain
                 stree_sub{h,1} = [indDesc(neigh_i(1)) indDesc(neigh_i(2))];
             else
-                stree_sub{h,1} = zeros(1,length(stree{j,1}));
+                stree_sub{h,1} = zeros(1,length(stree{j,1})); % as children put new indices accordind to new frequencies array
                 for k = 1:length(stree{j,1})
                     stree_sub{h,1}(k) = indDesc(stree{j,1}(k));
                 end

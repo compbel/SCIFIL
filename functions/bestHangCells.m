@@ -1,4 +1,4 @@
-function M_best = bestHangCells(stree, M_obs, pFalseNeg, pFalsePos)
+function M_best = bestHangCells(stree, M_obs, pFalseNeg, pFalsePos, pFalseNeg2, pFalsePos2)
     haplotypes = size(M_obs, 1);
     mutations = size(M_obs,2);
     M_best = zeros(haplotypes, mutations);
@@ -10,7 +10,7 @@ function M_best = bestHangCells(stree, M_obs, pFalseNeg, pFalsePos)
         
         for m=tree_mut
             prof = mutationProfile(stree,m,mutations);
-            prob = probMatr(M_obs(h,:),prof,pFalseNeg,pFalsePos);
+            prob = probMatrHom(M_obs(h,:),prof,pFalseNeg,pFalsePos, pFalseNeg2, pFalsePos2);
             prob_arr(m) = prob;
             if (prob > best)
                 best = prob;

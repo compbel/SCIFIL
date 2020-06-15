@@ -1,4 +1,4 @@
-function [l_rec, fitInfer1, orderMutInfer] = fitLocalSearch(stree,obsFreqLeafs,fmax,fmin,theta,eps,alpha,beta,M_noise) 
+function [l_rec, fitInfer1, orderMutInfer] = fitLocalSearch(stree,obsFreqLeafs,fmax,fmin,theta,eps,alpha,beta,alpha2, beta2, M_noise) 
 Tmax = 150000;
 debugMode = false;
 curTree = stree;
@@ -7,7 +7,8 @@ nIntern = size(M_infer,2);
 
 for iter=1:1
     [l_f_rec, fitInfer1, orderMutInfer,stats1] = fitBruteForceBackTrack2(curTree,theta,fmax,fmin,obsFreqLeafs,eps,Tmax,debugMode);
-    l_m_rec = probMatr(M_infer,M_noise,alpha, beta);
+%     l_m_rec = probMatrHom(M_infer,M_noise,alpha, beta, alpha2, beta2);
+    M_inf = bestHangCells(curTree, M_noise, alpha, beta, alpha2, beta2);
 %     l_rec = l_f_rec + l_m_rec;
     l_rec = l_f_rec;
     

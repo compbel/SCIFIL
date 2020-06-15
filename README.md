@@ -19,6 +19,14 @@ It takes single cell data, mutation tree and estimates finesses of all mutations
 - ``nRep`` (_optional_) - number of repeated mutation(if any) starting from 1
 - ``theta`` (_optional_) - value of theta (mean cancer cells mutation rate). Default is 0.01.
 
+## infSCITE trees
+To obtain the trees from data folder we used infSCITE with following parameters:
+
+``./infSCITE -i dataHou18.csv -n 18 -m 58 -r 1 -l 500000 -fd 3.45e-3 -ad 1.46e-1 -s -e .2 -p 10000 -d -rec 3 -o output/dataHou18/dataHou18 -a``
+``./infSCITE -i dataHou18.csv -n 18 -m 58 -r 1 -l 500000 -fd 3.45e-3 -ad 1.46e-1 -s -e .2 -p 10000 -d -o output/dataHou18/dataHou18 -a``
+
+With third (SESN2) repeated mutation and without it respectively.
+
 ## Hot to run
 
 In console type and change to actual parameters:
@@ -27,7 +35,9 @@ In console type and change to actual parameters:
 
 Example:
 
-``matlab -nodisplay -nodesktop -r "gv_file='data/dataHou18_map0.gv';names_file='data/dataHou18names.txt';nRep=3;n=58;m=18;SCIFIL"``
+``matlab -nodisplay -nodesktop -r "gv_file='data/dataHou18_map0_rep3.gv';names_file='data/dataHou18names.txt';nRep=3;n=58;m=18;SCIFIL"``
+
+``matlab -nodisplay -nodesktop -r "gv_file='data/dataHou18_map0_noRep.gv';names_file='data/dataHou18names.txt';n=58;m=18;SCIFIL"``
 
 Execution result:
 ![Example](img/example.PNG)
@@ -37,8 +47,9 @@ There will be two figures. First represent mutation tree, second fitness landsca
 
 ### Output file
 
-Output contains only one line - calculated fitness of mutations in the same order as in names file or as their numbers in gv file (if names file is not specified). Repeated mutation's fitness will be the last one
+Output contains only one line - calculated fitness of mutations in the same order as in names file or as their numbers in gv file (if names file is not specified). 
+Repeated mutation's fitness will be the last one, first number is root(healthy tissue) fitness rate.
 
 ```
-1.0051 1.0119 1.0206 1.0289 1.0385 1.0490 1.0605 1.0745 1.0904 1.1068 1.1354 1.1107 1.1475 1.1905 1.2466 1.3785 
+1.0000 1.0152 1.0404 1.0208 1.0793 1.0097 1.1066 1.0580 1.1933 1.0490 1.0270 1.1387 1.0682 1.0925 1.1493 1.0049 1.1274 1.0182 1.0334 1.2875 
 ```

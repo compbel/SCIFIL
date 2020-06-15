@@ -1,3 +1,8 @@
+% gv_file='data/dataHou18_map0_rep3.gv';
+% names_file='data/dataHou18names.txt';
+% nRep=3;
+% n=58;
+% m=18;
 disp('Starting SCIFIL')
 addpath('functions');
 if (~exist('method', 'var'))
@@ -9,7 +14,7 @@ if (~exist('output', 'var'))
 end
 
 % M_noise = dlmread(matrix_file); % matrix_file = 'data/dataHou18.csv'
-% 
+%
 % M_noise = M_noise';
 % 
 % n = size(M_noise,1);
@@ -44,7 +49,7 @@ m = m+noRep;
 
 
 
-AMscite = scite2Tree(gv_file,n,m); % gv_file = 'data/dataHou18_map0.gv'
+AMscite = scite2Tree(gv_file,n,m); % gv_file = 'data/dataHou18_map0_rep3.gv'
 stree = AMInfScite2STree(AMscite(1:(m+1),1:(m+1)));
 
 cellCounts = zeros(m+1,1);
@@ -53,6 +58,7 @@ for i = 1:n
     cellCounts(ind) = cellCounts(ind) + 1/length(ind);
     %         cellCounts(ind) = cellCounts(ind) + 1;
 end
+cellCounts(cellCounts==0) = 0.1;
 obsFreqLeafs = cellCounts/sum(cellCounts,1);
 
 % [stree, obsFreqLeafs, indLeft] = normStree(stree,obsFreqLeafs,eps1);
@@ -66,7 +72,9 @@ eps = 1e-4;
 Tmax = 150000;
 timeLimit = 600;
 alpha = 0.2;
+alpha2 = alpha;
 beta = 0.00001;
+beta2 = alpha*beta/2;
 debugMode = false;
 
 
@@ -86,7 +94,7 @@ debugMode = false;
 % [likelihood2,fitInfer1] = probTreeParamOrder(bintree,orderTrue,leftHapl,rightHapl,theta,obsFreqLeafs,eps);
 
 % [likelihood,fit,order,stats] = bintreeFitBruteForce(bintree,theta,fmax,fmin,obsFreqLeafs,eps,Tmax,timeLimit);
-% [likelihood, fit, order] = fitLocalSearch(stree,obsFreqLeafs,5*fmax,0.5*fmin,theta,eps,alpha,beta,M_noise)
+% [likelihood, fit, order] = fitLocalSearch(stree,obsFreqLeafs,5*fmax,0.5*fmin,theta,eps,alpha,beta,alpha2, beta2, M_noise)
 % fill all fits according to initial order of mutations
 
 if (strcmp(method, 'brute_force'))
